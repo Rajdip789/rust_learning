@@ -4,10 +4,118 @@ use std::io;
 
 const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 
-fn random_number() -> u8 {
-    200
+//Type annotation is must in function definition
+
+/*  Statements: are instructions that perform some action and do not return a value. fucntion declaration
+
+    Expressions: evaluate to a resultant value. Expressiion can be part of statements.
+    Macro calling, function calling
+*/
+fn control_flow(y: bool) {
+
+    //if expression
+    let x: i32 = if y { 10 } else { 20 };
+    println!("x = {x}");
+
+    let number = 3;
+
+    /* Error -> In rust if condition always expects a boolean value, it will not 
+        convert a non boolean to boolean by default like other languages
+    */
+    // if number {
+    //     println!("The number is three");
+    // }
+
+    //Loop - breaking conditioin not known
+    let mut num: u8 = 1;
+    loop {
+        println!("Vaue of number is {num}");
+        
+        /* Infinity loop, will get overflow and crash - but in release mode it will break after 128 
+        because of wrapping the (128 + 128) = 256 -> 0 */
+        if num == 0 {
+            break;
+        }
+        num = num + num;
+    }
+
+    let mut num = 1;
+    let _result: i32 = loop { //loop as expression
+        if num == 10 { 
+            break num;
+        }
+        num = num + 1;
+    };
+
+
+    //Loop label
+    let mut count = 0;
+    'counting_up: loop {
+        println!("count = {count}");
+        let mut remaining = 10;
+
+        loop {
+            println!("remaining = {remaining}");
+            if remaining == 9 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up;
+            }
+            remaining -= 1;
+        }
+
+        count += 1;
+    }
+    println!("End count = {count}");
+
+    //while looop
+    let mut number = 0;
+    while number != 0 {
+        println!("{number}");
+        number -= 1;
+    }
+
+    let arr = [1, 2, 3, 4, 5, 6];
+    let mut index = 0;
+
+    while index < arr.len() {
+        println!("index: {}, value: {}", index, arr[index]);
+        index += 1;
+    }
+
+    //efficient approach
+    for e in arr {
+        println!("value: {e}");
+    }
+
+    for number in (1..=10).rev() { //To make last index inclusive put = sign after ..
+        println!("{number}");
+    }
 }
-fn vairables_and_datatypes() -> () {
+
+fn function_example(x: i32, y: i32) -> i32 {
+    if x == 0 || y == 0 {
+        return 0; //early return
+    }
+    println!("Value of x: {x}");
+    println!("Value of y: {y}");
+
+    let y = {
+        let x = x+y;
+        x + 1 //return expression, not include ending semicolon
+    };
+
+    println!("The value of y is {y}");
+
+    y //return
+}
+
+fn random_number() -> u8 {
+    200 //return 200
+}
+
+fn vairables_and_datatypes() {
     /* SCALAR TYPES */
 
     //Type annotation for parsing
@@ -99,10 +207,9 @@ fn vairables_and_datatypes() -> () {
 
     println!("{}", days[0]); //Sunday
 
-    ();
 }
 
-fn shadowing() -> () {
+fn shadowing() {
     let apples = 10;
     println!("Value of apple {apples}");
 
@@ -124,11 +231,9 @@ fn shadowing() -> () {
     println!("The value of x is: {x}");
 
     println!("{}", THREE_HOURS_IN_SECONDS);
-
-    ();
 }
 
-fn guessing_game() -> () {
+fn guessing_game() {
     println!("!!! GUESSING GAME !!!");
 
     let secret_number = rand::thread_rng().gen_range(1..=100);
@@ -160,12 +265,12 @@ fn guessing_game() -> () {
         }
         println!("Please guess again: ");
     }
-
-    ();
 }
 
 fn main() {
-    guessing_game();
-    shadowing();
-    vairables_and_datatypes();
+    // guessing_game();
+    // shadowing();
+    // vairables_and_datatypes();
+    let _x = function_example(5, 3);
+    control_flow(true);
 }
