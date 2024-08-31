@@ -1,16 +1,97 @@
 use rand::Rng;
 use std::cmp::Ordering;
+use std::f64::consts::PI;
 use std::io;
 
 const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 
-//Type annotation is must in function definition
+struct  Point<A, B> {
+    x: A,
+    y: A,
+    z: B,
+}
 
-/*  Statements: are instructions that perform some action and do not return a value. fucntion declaration
+//use when we have limited values of something
+enum  Direction {
+    North,
+    East,
+    South,
+    West,    
+}
+enum Shape {
+    Circle(f64),
+    Square(f64),
+    Rectangle(f64, f64),
+}
 
-    Expressions: evaluate to a resultant value. Expressiion can be part of statements.
-    Macro calling, function calling
-*/
+fn calculate_area(shape: Shape) -> f64 {
+    //pattern matching
+    let area = match shape {
+        Shape::Circle(radius) => PI * radius * radius,
+        Shape::Square(side_length) => side_length * side_length, 
+        Shape::Rectangle(width, height) => width * height,
+    };
+
+    area
+}
+
+fn enums() {
+    let my_dir = Direction::North;
+    let new_dir = my_dir;
+
+    let circle = Shape::Circle(5.2);
+    let rectangle = Shape::Rectangle(20.0, 30.0);
+
+    println!("Area of the circle: {}", calculate_area(circle));
+    println!("Area of the reactangle: {}", calculate_area(rectangle));
+
+    let floting_point: Point<f64, &str> = Point  {x: 5.0, y: 4.5, z: "12" };
+    println!("Floting Point: ({}, {})", floting_point.x, floting_point. y);
+}
+
+struct NoShape; //unit struct
+
+struct  Rect {
+    width: u32,
+    height: u32,
+}
+
+impl Rect {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn perimeter(&self) -> u32 {
+        2 * (self.width + self.height)
+    }
+}
+
+struct  User {
+    username: String,
+    email: String,
+    active: bool,
+    sing_in_count: u64,
+}
+
+fn structure() {
+    let user1 = User {
+        username: String::from("Rajdip Pal"),
+        email: String::from("palrajdip33@gmail.com"),
+        active: true,
+        sing_in_count: 1,
+    };
+    println!("Name: {}, Email: {}, Is active: {}, Sign in count: {}", user1.username, user1.email, user1.active, user1.sing_in_count);
+
+    let rect1= Rect {
+        width: 52,
+        height: 40
+    };
+
+    println!("Height: {}", rect1.width);
+    println!("Width: {}", rect1.height);
+    println!("Area: {}", rect1.area());
+    println!("Perimeter: {}", rect1.perimeter());
+}
 
 fn references() {
     /*  pass a reference to the fucntion insted of moving / transfering the ownership to the function
@@ -96,6 +177,14 @@ fn ownership () {
 }
 
 fn control_flow(y: bool) {
+
+    //Type annotation is must in function definition
+
+    /*  Statements: are instructions that perform some action and do not return a value. fucntion declaration
+
+        Expressions: evaluate to a resultant value. Expressiion can be part of statements.
+        Macro calling, function calling
+    */
 
     //if expression
     let x: i32 = if y { 10 } else { 20 };
@@ -361,4 +450,7 @@ fn main() {
 
     ownership();
     references();
+
+    structure();
+    enums();
 }
