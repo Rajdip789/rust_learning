@@ -11,13 +11,97 @@ const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
     Expressions: evaluate to a resultant value. Expressiion can be part of statements.
     Macro calling, function calling
 */
+
+fn references() {
+    /*  pass a reference to the fucntion insted of moving / transfering the ownership to the function
+        A reference is like a pointer in that it’s an address we can follow to access the data stored at that address; 
+        that data is owned by some other variable. Unlike a pointer, a reference is guaranteed to point to a valid value 
+        of a particular type for the life of that reference. */
+
+    /*  The Rules of References
+        1.  At any given time, you can have either one mutable reference or any number of immutable references.
+        2.  References must always be valid. */
+
+    //Non mutable reference  
+    let s1 = String::from("hello");
+    let len = calculate_length(&s1);
+    println!("The length of '{s1}' is {len}.");
+
+    //Mutable reference
+    let mut s2 = String::from("Hello");
+    modify_str(&mut s2);
+
+    let mut s = String::from("Hello");
+    let r1 = &s;
+    let r2 = &s;
+
+    //Problem - cannot borrow `s` as mutable because it is also borrowed as immutable
+    //let r3 = &mut s;
+    println!("{r1} and {r2}");
+
+    //No problem - The scopes of the immutable references r1 and r2 end after the println! where they are last used.
+    let r3 = &mut s;
+    println!("{r3}");
+
+}
+
+fn modify_str(s2: &mut String) {
+    s2.push_str(", World");
+}
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
+
+fn takes_ownership(some_string: String) { // some_string comes into scope
+    println!("{some_string}");
+} // Here, some_string goes out of scope and `drop` is called. The backing
+  // memory is freed.
+
+//https://doc.rust-lang.org/stable/book/ch04-01-what-is-ownership.html
+fn ownership () {
+    /*  1. string literal -> we know the contents at compile time, so the text is hardcoded 
+        directly into the final executable. This is why string literals are fast and efficient. 
+        But these properties only come from the string literal’s immutability. 
+
+        2. String type -> in order to support a mutable, growable piece of text, we need to allocate 
+        an amount of memory on the heap, unknown at compile time, to hold the contents.
+            1. The memory must be requested from the memory allocator at runtime. (String::from)
+            2. We need a way of returning this memory to the allocator when we’re done with our String.
+    */
+    let mut str = String::from("");
+    str.push_str("This is some piece of text");
+
+    println!("Pointer: {:p}, length: {}, capacity: {}", str.as_ptr(), str.len(), str.capacity());
+
+    /*  we copy the pointer, the length, and the capacity that are on the stack. 
+        We do not copy the data on the heap that the pointer refers to. It it known as move.
+        we called -> str was moved into s */
+    let _s = str;        //after this str is no longer valid
+    //println!("{str}, world!");  //so this line will give error
+
+    // Deep copy - copies the actual heap data - clone
+    let s1 = String::from("hello");
+    let s2 = s1.clone();
+
+    println!("s1 = {s1}, s2 = {s2}");
+
+    /*  The mechanics of passing a value to a function are similar to those when assigning a value to a variable. 
+    Passing a variable to a function will move or copy, just as assignment does. */
+    takes_ownership(s1);             // Transfering ownership -> s's value moves into the function...
+                                    // ... and so is no longer valid here
+
+    //println!("{s1}"); //Invlid because , s1 moves into the takes_ownership function
+
+}
+
 fn control_flow(y: bool) {
 
     //if expression
     let x: i32 = if y { 10 } else { 20 };
     println!("x = {x}");
 
-    let number = 3;
+    let _number = 3;
 
     /* Error -> In rust if condition always expects a boolean value, it will not 
         convert a non boolean to boolean by default like other languages
@@ -177,6 +261,7 @@ fn vairables_and_datatypes() {
 
     //4 byte size - Unicode Saclar Value
     let _c: char = 'R';
+    //string slice initialized with a string literal. String literals have a static lifetime
     let _c: &str = "Rajdip";
     let _heart_eyed_cat = '😻';
 
@@ -268,9 +353,12 @@ fn guessing_game() {
 }
 
 fn main() {
-    // guessing_game();
-    // shadowing();
-    // vairables_and_datatypes();
+    guessing_game();
+    shadowing();
+    vairables_and_datatypes();
     let _x = function_example(5, 3);
     control_flow(true);
+
+    ownership();
+    references();
 }
