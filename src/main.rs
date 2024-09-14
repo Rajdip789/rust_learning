@@ -1,18 +1,44 @@
 use rand::Rng;
 use std::cmp::Ordering;
 use std::f64::consts::PI;
-use std::io;
+use std::{fs, io};
 
 const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 
-struct  Point<A, B> {
+//Result enum written in rust
+/* enum Result<A, B> {
+    Ok(A),
+    Err(B),
+} */
+
+//Option enum
+/* enum Option<T> {
+    Some(T),
+    None,
+} */
+
+fn error_handling() {
+    let s = "Rajdip";
+    let res: Result<String, io::Error> = fs::read_to_string("readme.md");
+
+    match res {
+        Ok(content) => {
+            println!("File content: {}", content);
+        }
+        Err(err) => {
+            println!("Error: {}", err);
+        }
+    }
+}
+
+struct Point<A, B> {
     x: A,
     y: A,
     z: B,
 }
 
 //use when we have limited values of something
-enum  Direction {
+enum Direction {
     North,
     East,
     South,
@@ -51,7 +77,7 @@ fn enums() {
 
 struct NoShape; //unit struct
 
-struct  Rect {
+struct Rect {
     width: u32,
     height: u32,
 }
@@ -124,7 +150,16 @@ fn references() {
     let r3 = &mut s;
     println!("{r3}");
 
+    //dangling reference 
+    //let reference_to_nothing = dangle();
+
 }
+
+//Can't return the reference, because the scope of s is end after this function
+// fn dangle() -> &String {
+//     let s = String::from("Hello");
+//     &s  //we can return the actual s, insted of the ref, to transfer ownership
+// }
 
 fn modify_str(s2: &mut String) {
     s2.push_str(", World");
@@ -453,4 +488,6 @@ fn main() {
 
     structure();
     enums();
+
+    error_handling();
 }
