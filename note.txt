@@ -1,0 +1,13 @@
+fn iterators() {
+    let nums = vec![1, 2, 3];
+    let iter = nums.iter(); //imutable borrow of nums
+
+    for value in iter {
+        println!("{}", value);
+    }
+
+    //Here we consumed the nums vector means ownership is moved away, after this loop nums is not available
+    for value in nums {
+        println!("{}", value);
+    }
+}

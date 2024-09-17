@@ -3,6 +3,15 @@ use std::cmp::Ordering;
 use std::f64::consts::PI;
 use std::{fs, io};
 
+mod prog1;
+mod prog2;
+mod prog3;
+mod prog4;
+mod prog5;
+mod prog6;
+mod prog7;
+mod prog8;
+
 const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 
 //Result enum written in rust
@@ -490,4 +499,13 @@ fn main() {
     enums();
 
     error_handling();
+
+    prog1::run();
+    prog2::run();
+    prog3::run();
+    prog4::run();
+    prog5::run();
+    prog6::run();
+    prog7::run();
+    prog8::run();
 }
