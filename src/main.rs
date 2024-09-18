@@ -11,8 +11,24 @@ mod prog5;
 mod prog6;
 mod prog7;
 mod prog8;
+mod prog9;
+mod prog10;
+mod structs;
+mod traits;
+mod iterators;
 
 const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
+
+fn slices () {
+    // 3 types of strings
+    let name = String::from("hello world"); //String type
+    let string_slice = &name; // Has a 'view' into the original string/ is a refernce
+    let string_literal = "hello"; // Literal is also an &str but it points directly to an address in the binary
+
+    // slice can also be applied to other collections like vectors/arrays
+    let arr = [1,2,3];
+    let arr_slice = &arr[0..1];
+}
 
 //Result enum written in rust
 /* enum Result<A, B> {
@@ -486,19 +502,19 @@ fn guessing_game() {
 }
 
 fn main() {
-    guessing_game();
-    shadowing();
-    vairables_and_datatypes();
-    let _x = function_example(5, 3);
-    control_flow(true);
+    // guessing_game();
+    // shadowing();
+    // vairables_and_datatypes();
+    // let _x = function_example(5, 3);
+    // control_flow(true);
 
-    ownership();
-    references();
+    // ownership();
+    // references();
 
-    structure();
-    enums();
+    // structure();
+    // enums();
 
-    error_handling();
+    // error_handling();
 
     prog1::run();
     prog2::run();
@@ -508,4 +524,10 @@ fn main() {
     prog6::run();
     prog7::run();
     prog8::run();
+    prog9::run();
+    prog10::run();
+
+    structs::run();
+    traits::run();
+    iterators::run();
 }

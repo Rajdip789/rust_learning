@@ -3,7 +3,7 @@
 use std::collections::HashMap;
 
 fn get_key_value_map(pairs: Vec<(String, i32)>) -> HashMap<String, i32> {
-    let mut map = HashMap::new();
+    let mut map: HashMap<String, i32> = HashMap::new();
 
     for (key, value) in pairs {
         map.insert(key, value);
@@ -13,14 +13,15 @@ fn get_key_value_map(pairs: Vec<(String, i32)>) -> HashMap<String, i32> {
 }
 
 pub fn run() {
-    let pairs = vec![
+    let pairs: Vec<(String, i32)> = vec![
         (String::from("Rajdip"), 1), 
         (String::from("Sandip"), 2)
     ];
 
-    let grouped_pairs = get_key_value_map(pairs);
+    let grouped_pairs: HashMap<String, i32> = get_key_value_map(pairs);
 
     for (key, value) in grouped_pairs {
-        println!("Key: {} Value: {}", key, value);
+        println!("Key: {} Value: {}",
+         key, value);
     }
 }
